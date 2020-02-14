@@ -260,6 +260,12 @@
         </exec>
     </target>
 
+    <target name="start-and-recompile" description="">
+        <antcall target="start"/>
+        <antcall target="sleep-until-started"/>
+        <antcall target="compile-xrx-project"/>
+    </target>
+
     <target name="install" description="Installs the XRX Application Server">
         <log message="Installing XRX Application Server"/>
         <mkdir dir="${tmp-home}"/>
@@ -276,8 +282,6 @@
         <antcall target="stop"/>
         <antcall target="disable-betterform-debug"/>
         <antcall target="clean-up"/>
-        <antcall target="start"/>
-        <antcall target="sleep-until-started"/>
     </target>
 
     <target name="prepare-tools">
