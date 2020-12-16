@@ -8,3 +8,5 @@
 test/
 full*.zip
 inc*.zip
+.devcontainer
+.vscode
