@@ -51,7 +51,7 @@ declare function oai-harvester:list-records($base-url as xs:anyURI,
                     concat('&amp;resumptionToken=', xs:string(session:get-attribute('next-resumption-token'))) 
                 else ''
             )))
-            let $next-resumption-token := $get//oai:resumptionToken
+            let $next-resumption-token := $get//resumptionToken
             return
                 if ($next-resumption-token) then
                     (

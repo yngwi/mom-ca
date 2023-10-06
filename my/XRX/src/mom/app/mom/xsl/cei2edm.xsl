@@ -1,4 +1,4 @@
-<xsl:stylesheet id="cei2edm" version="1.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:edm="http://www.europeana.eu/schemas/edm/" xmlns:ese="http://www.europeana.eu/schemas/ese/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:xrx="http://www.mom-ca.uni-koeln.de/NS/xrx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xsi:schemaLocation="http://www.w3.org/1999/XSL/Transform https://www.w3.org/2007/schema-for-xslt20.xsd">
+<xsl:stylesheet id="cei2edm" version="1.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:edm="http://www.europeana.eu/schemas/edm/" xmlns:ese="http://www.europeana.eu/schemas/ese/" xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:xrx="http://www.mom-ca.uni-koeln.de/NS/xrx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xsi:schemaLocation="http://www.w3.org/1999/XSL/Transform https://www.w3.org/2007/schema-for-xslt20.xsd">
   <xsl:param name="platform-id" />
   <xsl:param name="data-provider" />
   <xsl:param name="base-image-url" />
@@ -17,7 +17,7 @@
       </xsl:for-each>
     </xsl:variable>
     <!-- Start OAI output -->
-    <oai:metadata>
+    <metadata>
       <rdf:RDF>
         <!-- Aggregation -->
         <ore:Aggregation rdf:about="{$aggregation-id}">
@@ -199,6 +199,6 @@
           </xsl:if>
         </edm:ProvidedCHO>
       </rdf:RDF>
-    </oai:metadata>
+    </metadata>
   </xsl:template>
 </xsl:stylesheet>

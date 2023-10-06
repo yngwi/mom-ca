@@ -53,9 +53,9 @@ declare variable $oaiinterface:parameters          := request:get-parameter-name
 (: ------------- platform specific params ---------- :)
 (: Variable to identify and validate resumptionToken :)
 declare variable $oaiinterface:resumption-token-prefix := if (fn:compare($conf:project-name, "mom")=0)then
-                                                            "oai:MoM:"
+                                                            "MoM:"
                                                         else
-                                                            "oai:VdU:";
+                                                            "VdU:";
 (: platform specific variables for verb "Identify":)                                                            
 declare variable $oaiinterface:admin-email := "technik@monasterium.net";
 declare variable $oaiinterface:repository-name := if (fn:compare($conf:project-name, "mom")=0)then
@@ -69,23 +69,23 @@ declare variable $oaiinterface:granularity := "YYYY-MM-DDThh:mm:ssZ";
 declare variable $oaiinterface:date-pattern := "^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z){0,1}$";
 (: available metadataFormats :)
 declare variable $oaiinterface:metadata-formats :=
-            <oai:ListMetadataFormats>
-                <oai:metadataFormat>
-                    <oai:metadataPrefix>oai_dc</oai:metadataPrefix>
-                    <oai:schema>http://www.openarchives.org/OAI/2.0/oai_dc.xsd</oai:schema>
-                    <oai:metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/</oai:metadataNamespace>
-                </oai:metadataFormat>
-                <oai:metadataFormat>
-                    <oai:metadataPrefix>ese</oai:metadataPrefix>
-                    <oai:schema>http://www.europeana.eu/schemas/ese/ESE-V3.2.xsd</oai:schema>
-                    <oai:metadataNamespace>http://www.europeana.eu/schemas/ese/</oai:metadataNamespace>
-                </oai:metadataFormat>
-                <oai:metadataFormat>
-                    <oai:metadataPrefix>edm</oai:metadataPrefix>
-                    <oai:schema>https://www.europeana.eu/schemas/edm/EDM.xsd</oai:schema>
-                    <oai:metadataNamespace>http://www.europeana.eu/schemas/edm/</oai:metadataNamespace>
-                </oai:metadataFormat>
-            </oai:ListMetadataFormats>;
+            <ListMetadataFormats>
+                <metadataFormat>
+                    <metadataPrefix>oai_dc</metadataPrefix>
+                    <schema>http://www.openarchives.org/OAI/2.0/oai_dc.xsd</schema>
+                    <metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/</metadataNamespace>
+                </metadataFormat>
+                <metadataFormat>
+                    <metadataPrefix>ese</metadataPrefix>
+                    <schema>http://www.europeana.eu/schemas/ese/ESE-V3.2.xsd</schema>
+                    <metadataNamespace>http://www.europeana.eu/schemas/ese/</metadataNamespace>
+                </metadataFormat>
+                <metadataFormat>
+                    <metadataPrefix>edm</metadataPrefix>
+                    <schema>https://www.europeana.eu/schemas/edm/EDM.xsd</schema>
+                    <metadataNamespace>http://www.europeana.eu/schemas/edm/</metadataNamespace>
+                </metadataFormat>
+            </ListMetadataFormats>;
 (: Tag of the document to compare the from/until parameters :)            
 declare variable $oaiinterface:tag-to-compare-date := "atom:updated";
 (: Tag of the document to compare the identifier parameter :)
@@ -132,7 +132,7 @@ declare function local:validate-until-date() {
 
 (: validate metadataPrefix:)
 declare function local:validate-metadata-prefix() {
-    let $formats-available := $oaiinterface:metadata-formats//oai:metadataPrefix/text()
+    let $formats-available := $oaiinterface:metadata-formats//metadataPrefix/text()
     return
        if(empty(index-of($formats-available, $oaiinterface:metadata-prefix))) then
                true() 
@@ -285,7 +285,7 @@ return
                             util:call($function-pointer, $oaiinterface:verb, $document, $oaiinterface:metadata-prefix) 
               (: max number of exported objects reached? - then produce a resumptionToken :)
               else if($number = ($index+$oaiinterface:number-to-export)) then
-                   <oai:resumptionToken>{$oaiinterface:resumption-token-prefix}\{$oaiinterface:metadata-prefix}\{$document//*[xs:string(fn:node-name(.)) = $oaiinterface:tag-to-compare-id]/xmldb:encode(./text())}\{$oaiinterface:from}\{$oaiinterface:until}</oai:resumptionToken>
+                   <resumptionToken>{$oaiinterface:resumption-token-prefix}\{$oaiinterface:metadata-prefix}\{$document//*[xs:string(fn:node-name(.)) = $oaiinterface:tag-to-compare-id]/xmldb:encode(./text())}\{$oaiinterface:from}\{$oaiinterface:until}</resumptionToken>
               else()            
              }
             catch * {
@@ -333,15 +333,15 @@ declare function local:response($oai-collections as xs:string*, $base-url as xs:
             let $earliest-datestamp := local:find-earliest-datestamp($oai-collections)
                 return
                 (: identify the data provider:)
-                <oai:Identify>
-                    <oai:repositoryName>{$oaiinterface:repository-name}</oai:repositoryName>
-                    <oai:baseURL>{$base-url}</oai:baseURL>
-                    <oai:protocolVersion>{$oaiinterface:protocol-version}</oai:protocolVersion>
-                    <oai:adminEmail>{$oaiinterface:admin-email}</oai:adminEmail>
-                    <oai:earliestDatestamp>{$earliest-datestamp}</oai:earliestDatestamp>
-                    <oai:deletedRecord>{$oaiinterface:delete-records}</oai:deletedRecord>
-                    <oai:granularity>{$oaiinterface:granularity}</oai:granularity>
-                </oai:Identify>
+                <Identify>
+                    <repositoryName>{$oaiinterface:repository-name}</repositoryName>
+                    <baseURL>{$base-url}</baseURL>
+                    <protocolVersion>{$oaiinterface:protocol-version}</protocolVersion>
+                    <adminEmail>{$oaiinterface:admin-email}</adminEmail>
+                    <earliestDatestamp>{$earliest-datestamp}</earliestDatestamp>
+                    <deletedRecord>{$oaiinterface:delete-records}</deletedRecord>
+                    <granularity>{$oaiinterface:granularity}</granularity>
+                </Identify>
             
     else if($oaiinterface:verb  ="ListMetadataFormats")
         then
@@ -378,9 +378,9 @@ declare function local:response($oai-collections as xs:string*, $base-url as xs:
                             <error code="badResumptionToken">Resumption Token is not valid</error>
                   else
                         if($oaiinterface:verb  = "ListRecords")then
-                            <oai:ListRecords>{$hits}</oai:ListRecords> 
+                            <ListRecords>{$hits}</ListRecords> 
                         else
-                            <oai:ListIdentifiers>{$hits}</oai:ListIdentifiers>                        
+                            <ListIdentifiers>{$hits}</ListIdentifiers>                        
                           
     else if($oaiinterface:verb  ="GetRecord")
     then
@@ -388,12 +388,12 @@ declare function local:response($oai-collections as xs:string*, $base-url as xs:
         return
             (: Get a single record with the identifier parameter :)
             if(not(empty($record)))then
-                <oai:GetRecord>
-                   <oai:record>
+                <GetRecord>
+                   <record>
                      (: call function to transform :)
                      {util:call($function-pointer, $oaiinterface:verb, $record, $oaiinterface:metadata-prefix)}
-                   </oai:record>
-               </oai:GetRecord>
+                   </record>
+               </GetRecord>
             else <error code="idDoesNotExist">Identifier does not exist</error>
         else <error code="badVerb">No valid request type</error>
 };
@@ -433,18 +433,18 @@ declare function local:prepareCache($name as xs:string, $oai-collections as xs:s
 (: Param $oai-collection as specific path to recources in DB/ Param $base-url as baseURL of the OAI- Interface:)
 declare function oaiinterface:main($oai-collections as xs:string*, $base-url as xs:string, $function-pointer  ){
     (: OAI- PMH informations - have to be defined:)
-    <oai:OAI-PMH xmlns:oai="http://www.openarchives.org/OAI/2.0/" 
+    <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
-    <oai:responseDate>{current-dateTime()}</oai:responseDate>
-    <oai:request> {(for $parameter in $oaiinterface:parameters
+    <responseDate>{current-dateTime()}</responseDate>
+    <request> {(for $parameter in $oaiinterface:parameters
                 return
                     attribute {$parameter}{request:get-parameter(string($parameter),0)})
-                ,$base-url}</oai:request>
+                ,$base-url}</request>
     {
     (: check parameters and produce a response:)
     local:validate-params($oai-collections, $base-url, $function-pointer)
     }
-     </oai:OAI-PMH>
+     </OAI-PMH>
 };
 

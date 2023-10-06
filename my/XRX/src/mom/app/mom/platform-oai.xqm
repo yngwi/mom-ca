@@ -53,10 +53,10 @@ declare function platform-oai:transform($verb as xs:string, $document as node()*
     (: transform document to metadata format :)
     let $transformed-object :=
                          if($verb = "ListRecords" or $verb = "GetRecord")then
-                            <oai:record>
+                            <record>
                                 {(transform:transform($document, $header-xsl, $xsl-header-params),
                                  transform:transform($document, $content-xsl, $xsl-content-params))}
-                             </oai:record>
+                             </record>
                           else
                              transform:transform($document, $header-xsl, $xsl-header-params)
     return     
@@ -367,16 +367,16 @@ declare function platform-oai:create-file($object-id as xs:string, $context as x
 declare function platform-oai:error-message($base-url as xs:string) {
     let $message :=
                 (: OAI- PMH informations - have to be defined:)
-                <oai:OAI_PMH xmlns:oai="http://www.openarchives.org/OAI/2.0/" 
+                <OAI_PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                      xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
-                <oai:responseDate>{current-dateTime()}</oai:responseDate>
-                <oai:request> {(for $parameter in request:get-parameter-names()
+                <responseDate>{current-dateTime()}</responseDate>
+                <request> {(for $parameter in request:get-parameter-names()
                             return
                                 attribute {$parameter}{request:get-parameter(string($parameter),0)})
-                            ,$base-url}</oai:request>
-                 <oai:error code="noRecordsMatch">Base- URL has not been released yet! Please check your URL or contact the metadata manager of the archive!</oai:error>
-                 </oai:OAI_PMH> 
+                            ,$base-url}</request>
+                 <error code="noRecordsMatch">Base- URL has not been released yet! Please check your URL or contact the metadata manager of the archive!</error>
+                 </OAI_PMH> 
         return
             $message
 };
